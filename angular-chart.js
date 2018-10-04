@@ -308,17 +308,21 @@
         getData(scope.chartLabels, scope.chartData, colors, scope.chartDatasetOverride);
     }
 
-    function getDataSets (labels, data, series, colors, datasetOverride) {
+    function getDataSets (labels, data, series, colors, yaxis) {
       return {
         labels: labels,
         datasets: data.map(function (item, i) {
-          var dataset = angular.extend({}, colors[i], {
-            label: series[i],
-            data: item
+          var dataset =  angular.extend({}, colors[i], {
+            label: yaxis[i].label,
+            data: item,
+            type: yaxis[i].type,
+            fill: true
           });
-          if (datasetOverride && datasetOverride.length >= i) {
-            angular.merge(dataset, datasetOverride[i]);
+
+          if (yaxis) {
+            dataset.yAxisID = "y-axis-" + (i+1)
           }
+
           return dataset;
         })
       };
